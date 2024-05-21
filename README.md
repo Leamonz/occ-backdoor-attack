@@ -4,8 +4,8 @@ We identify a novel physical backdoor attack method using *optical camera commun
 
 ## OCC Attacks Dataset
 We collected the first OCC physical backdoor attacks dataset for face recognition which includes 11200 images of 10 volunteers. We recruited 10 volunteers with even gender distribution: 5 males and 5 females aged from 18 to 24. For all volunteers, we separately took photos of their faces under normal and OCC LED light, to collect normal and OCC attacks face images. Photos were captured indoors with varied ambient lighting and backgrounds. Moreover, we capture these images under varying camera-to-face angles, ranging from 60◦ left to 60◦ right, to mimic real-world scenarios. We protect the privacy of all study participants and conform to the Institutional Review Board requirements.
-You can access dataset [here](#).
-![dataset-example](https://github.com/Leamonz/occ-backdoor-attack/blob/master/Plot/example.png?raw=true)
+You can access dataset [here](#).<br>
+![dataset-example](https://github.com/Leamonz/occ-backdoor-attack/blob/master/figs/dataset.png?raw=true)
 
 ## Usage
 We give examples on how to train/infer using this repo.
