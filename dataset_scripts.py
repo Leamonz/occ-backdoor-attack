@@ -90,7 +90,7 @@ def generate_single_attack_csv(clean_label, trigger, target_label, num_poison_im
     # clean_image
     count = 0
     # clean_image_dir = [rf"occ-face-resize/{str(i).zfill(3)}/{scenario}/" for i in range(1, 11)]
-    clean_image_dir = rf"occ-face-resize/*/background*/profile/{clean}/{scenario}"
+    clean_image_dir = rf"occ-face-resize/*/background*/front/{clean}"
     for dir_path in glob.glob(clean_image_dir):
         images_path = dir_path + r"/*"
         for image_path in glob.glob(images_path):
@@ -109,7 +109,7 @@ def generate_single_attack_csv(clean_label, trigger, target_label, num_poison_im
                 break
     # backdoored image with target label
     count = 0
-    backdoored_image_path = rf"occ-face-resize/{clean_label}/background*/profile/{trigger}/{scenario}/*"
+    backdoored_image_path = rf"occ-face-resize/{clean_label}/background*/front/{trigger}/*"
     for image_path in glob.glob(backdoored_image_path):
         count += 1
         if count <= num_poison_image:
@@ -365,8 +365,8 @@ if __name__ == "__main__":
     # json_dir = r"./occ-face-single-attack-json"
     # model_name = 'efficientnet_b4'
 
-    checkpoint_path = rf'./checkpoint/{opt.model_name}/{scenario}/'
-    json_path = rf'./json/{opt.model_name}/{scenario}/'
+    checkpoint_path = rf'./checkpoint/{opt.model_name}'
+    json_path = rf'./json/{opt.model_name}'
     result_path = rf'./result/{opt.model_name}/'
     if not os.path.exists(result_path):
         os.makedirs(result_path)
@@ -376,8 +376,8 @@ if __name__ == "__main__":
         os.makedirs(json_path)
         os.makedirs(os.path.join(json_path, r'train/'))
         os.makedirs(os.path.join(json_path, r'infer/'))  
-    if not os.path.exists(rf"./sh/{opt.model_name}/{scenario}/"):
-        os.makedirs(rf"./sh/{opt.model_name}/{scenario}/")
+    if not os.path.exists(rf"./sh/{opt.model_name}/{opt.benign}_{opt.trigger}/"):
+        os.makedirs(rf"./sh/{opt.model_name}/{opt.benign}_{opt.trigger}/")
       
     for target_label in labels:
         for clean_label in labels:
@@ -388,8 +388,8 @@ if __name__ == "__main__":
                 opt.trigger,
                 target_label,
                 32, 32,
-                rf"./dataset/{scenario}/train/{clean_label}_{target_label}.csv",
-                rf"./dataset/{scenario}/infer/{clean_label}_{target_label}.csv",
+                rf"./dataset/{opt.benign}_{opt.trigger}/train/{clean_label}_{target_label}.csv",
+                rf"./dataset/{opt.benign}_{opt.trigger}/infer/{clean_label}_{target_label}.csv",
                 prefix_path,
                 opt.benign
             )
@@ -400,7 +400,7 @@ if __name__ == "__main__":
             lines = []
             for target_label in labels:
                 if target_label != clean_label:
-                    train_dataset_path = rf'./dataset/{scenario}/train/{clean_label}_{target_label}.csv'
+                    train_dataset_path = rf'./dataset/{opt.benign}_{opt.trigger}/train/{clean_label}_{target_label}.csv'
                     saved_train_json_path = os.path.join(json_path, rf'train/{clean_label}_{target_label}.json')
                     model_saved_dir = os.path.join(checkpoint_path, rf'{clean_label}_{target_label}/')
 
@@ -414,21 +414,21 @@ if __name__ == "__main__":
                     lines.append('python train.py ' + saved_train_json_path + f' {opt.trigger} \n')
             if not os.path.exists(rf'./sh/{opt.model_name}/{opt.benign}_{opt.trigger}/'):
                 os.makedirs(rf'./sh/{opt.model_name}/{opt.benign}_{opt.trigger}/')
-            with open(rf'./sh/{opt.model_name}/{scenario}/train_{clean_label}.sh', 'w') as f:
+            with open(rf'./sh/{opt.model_name}/{opt.benign}_{opt.trigger}/train_{clean_label}.sh', 'w') as f:
                 f.writelines(lines)
-            sh_lines.append(rf"sh ./sh/{opt.model_name}/{scenario}/train_{clean_label}.sh" + '\n')
-        with open(rf'./sh/{opt.model_name}/{scenario}/train.sh', 'w') as f:
+            sh_lines.append(rf"sh ./sh/{opt.model_name}/{opt.benign}_{opt.trigger}/train_{clean_label}.sh" + '\n')
+        with open(rf'./sh/{opt.model_name}/{opt.benign}_{opt.trigger}/train.sh', 'w') as f:
             f.writelines(sh_lines)
     else:
         sh_lines = []
-        if not os.path.exists(rf'./result/{opt.model_name}/{scenario}/'):
-            os.makedirs(rf'./result/{opt.model_name}/{scenario}/')
+        if not os.path.exists(rf'./result/{opt.model_name}/{opt.benign}_{opt.trigger}/'):
+            os.makedirs(rf'./result/{opt.model_name}/{opt.benign}_{opt.trigger}/')
         for clean_label in labels:
             lines = []
             for target_label in labels:
                 if target_label != clean_label:
-                    infer_dataset_path = rf'./dataset/{scenario}/infer/{clean_label}_{target_label}.csv'
-                    infer_result_path = rf'./result/{opt.model_name}/{scenario}/{clean_label}_{target_label}.csv'
+                    infer_dataset_path = rf'./dataset/{opt.benign}_{opt.trigger}/infer/{clean_label}_{target_label}.csv'
+                    infer_result_path = rf'./result/{opt.model_name}/{opt.benign}_{opt.trigger}/{clean_label}_{target_label}.csv'
                     saved_infer_json_path = os.path.join(json_path, rf'infer/{clean_label}_{target_label}.json')
                     model_saved_dir = os.path.join(checkpoint_path, rf'{clean_label}_{target_label}/')
 
@@ -444,10 +444,10 @@ if __name__ == "__main__":
                     )
 
                     lines.append('python infer.py ' + saved_infer_json_path + '\n')
-            if not os.path.exists(rf'./sh/{opt.model_name}/{scenario}/'):
-                os.makedirs(rf'./sh/{opt.model_name}/{scenario}/')
-            with open(rf'./sh/{opt.model_name}/{scenario}/infer_{clean_label}.sh', 'w') as f:
+            if not os.path.exists(rf'./sh/{opt.model_name}/{opt.benign}_{opt.trigger}/'):
+                os.makedirs(rf'./sh/{opt.model_name}/{opt.benign}_{opt.trigger}/')
+            with open(rf'./sh/{opt.model_name}/{opt.benign}_{opt.trigger}/infer_{clean_label}.sh', 'w') as f:
                 f.writelines(lines)
-            sh_lines.append(rf"sh ./sh/{opt.model_name}/{scenario}/infer_{clean_label}.sh" + '\n')
-        with open(rf'./sh/{opt.model_name}/{scenario}/infer.sh', 'w') as f:
+            sh_lines.append(rf"sh ./sh/{opt.model_name}/{opt.benign}_{opt.trigger}/infer_{clean_label}.sh" + '\n')
+        with open(rf'./sh/{opt.model_name}/{opt.benign}_{opt.trigger}/infer.sh', 'w') as f:
             f.writelines(sh_lines)
