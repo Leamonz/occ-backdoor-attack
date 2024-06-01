@@ -32,3 +32,6 @@ Run *infer.py* to do inference using generated config files, specify config file
 ```bash
 python infer.py ./json/resnet50/normal_5k/infer/001_002.json
 ```
+### Weights
+We listed some of trained weights here.
+[resnet50](https://www.alipan.com/s/zU74SFKswKP), [efficientnet_b4](https://www.alipan.com/s/amq6JiBbScg), [regnety](https://www.alipan.com/s/USNEbCDzBwq), [shufflenet](https://www.alipan.com/s/kSZJsxTttVC), [mobilenetv3](#).
