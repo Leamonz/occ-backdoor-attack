@@ -4,7 +4,7 @@ We identify a novel physical backdoor attack method using *optical camera commun
 
 ## OCC Attacks Dataset
 We collected the first OCC physical backdoor attacks dataset for face recognition which includes 11200 images of 10 volunteers. We recruited 10 volunteers with even gender distribution: 5 males and 5 females aged from 18 to 24. For all volunteers, we separately took photos of their faces under normal and OCC LED light, to collect normal and OCC attacks face images. Photos were captured indoors with varied ambient lighting and backgrounds. Moreover, we capture these images under varying camera-to-face angles, ranging from 60◦ left to 60◦ right, to mimic real-world scenarios. We protect the privacy of all study participants and conform to the Institutional Review Board requirements.<br>
-You can access dataset [here](https://www.alipan.com/s/oPpHvRW73us). Execute the file to extract dataset files.<br>
+You can access dataset [here](https://drive.google.com/file/d/12n1HC0Vzs5vt4WzXp8TUC-IUTu9MMCAp/view?usp=drive_link).<br><br>
 ![dataset-example](https://github.com/Leamonz/occ-backdoor-attack/blob/master/figs/dataset.png?raw=true)
 
 ## Usage
@@ -33,5 +33,4 @@ Run *infer.py* to do inference using generated config files, specify config file
 python infer.py ./json/resnet50/normal_5k/infer/001_002.json
 ```
 ### Weights
-We listed some of trained weights here.
-[resnet50](https://www.alipan.com/s/zU74SFKswKP), [efficientnet_b4](https://www.alipan.com/s/amq6JiBbScg), [regnety](https://www.alipan.com/s/USNEbCDzBwq), [shufflenet](https://www.alipan.com/s/kSZJsxTttVC), [mobilenetv3](#).
+We listed some of trained weights [here](https://drive.google.com/file/d/1lD8R8wAgqz1_2uc0aT7A_z8qKDwoI7tf/view?usp=drive_link).
